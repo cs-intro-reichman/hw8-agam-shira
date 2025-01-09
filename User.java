@@ -43,17 +43,22 @@
 
     /** If this user follows the given name, returns true; otherwise returns false. */
     public boolean follows(String name) {
-        name = name.toLowerCase();
+       name = name.toLowerCase();
        for (int i = 0 ; i < getfCount() ; i++) {
-        if (follows[i].equals(name)) {
+        if (follows[i] != null && follows[i].toLowerCase().equals(name)) {
             return true;
         }
-       }
+    }
         return false;
     }
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
+        String firstLetter = name.charAt(0) + "";
+        name = firstLetter.toUpperCase() + name.substring(1);
+        if(fCount == maxfCount) {
+            return false;
+        }
         if (this.follows(name) || getfCount() == maxfCount) {
             return false;
         }
@@ -86,7 +91,7 @@
         int mutual = 0;
         for(int i = 0 ; i < this.getfCount() ; i++) {
             for(int j =0 ; j < other.getfCount() ; j++) {
-                if(follows[i].equals(other.follows[i]) && this.follows[i] != null) {
+                if(other.follows[i].equals(this.follows[i]) && this.follows[i] != null) {
                     mutual ++ ;
                 }
             }
