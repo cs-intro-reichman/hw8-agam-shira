@@ -83,9 +83,13 @@ public class Network {
     /** Computes and returns the name of the most popular user in this network: 
      *  The user who appears the most in the follow lists of all the users. */
     public String mostPopularUser() {
-        int count = 0, countMax = 0, index = 0;
+        int count = 0;
+        int countMax = 0;
+        int index = 0;
         boolean ifNull = true;
         for (int i = 0; i < userCount; i++) {
+            // In Users program, the array wasn't sorted.
+            // We must check that the array isn't empty in each one of its indexes.
             if (users[i] != null) {
                 for (int j = 0; j < userCount; j++) {
                     if (users[j] != null && users[i].getName() != users[j].getName() && users[j].follows(users[i].getName())) {
@@ -100,10 +104,15 @@ public class Network {
                 index = i;
             }
 
-            count = 0; 
+            count = 0;
         }
-            return users[index].getName();
+        // Edge case- checking if the users array is empty
+        if (ifNull) {
+            return null;
+        }
+        return users[index].getName();
     }
+
 
     /** Returns the number of times that the given name appears in the follows lists of all
      *  the users in this network. Note: A name can appear 0 or 1 times in each list. */
